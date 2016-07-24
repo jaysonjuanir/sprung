@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>MainPage</title>
+    </head>
+	<body>
+		<div>
+			<div class="row">
+				<div class="column column-6" align="center">
+					<div class="column column-6" th:each="msg: ${message}"><span style="color:green" th:text="${msg}">MESSAGE HERE</span></div>
+					<a th:href="@{/ListPeople/Person}">Add Person</a>
+					<a th:href="@{/ListPeople/ViewRoles}">Roles</a>
+					
+					<form action="#" th:action="@{/ListPeople}" method="get">
+					  <input type="radio" name="sort" th:value="byId" checked="checked" /> By ID<br/>
+					  <input type="radio" name="sort" th:value="byDateHired"/>By Date Hired<br/>
+					  <input type="radio" name="sort" th:value="byGWA"/>By GWA<br/>
+					  <input type="radio" name="sort" th:value="byLastName"/> By Last Name<br/>
+					  <input type="submit" th:value="sort" />
+					</form>
+					<table>
+					
+						<tr>
+							<th>View</th>
+							<th>ID</th>
+							<th>Full Name</th>
+							<th>Address</th>
+							<th>Gender</th>
+							<th>GWA</th>
+							<th>Birthday</th>
+							<th>Employed</th> <!-- nandito na yung employed, date hired, at roles-->
+							<th>Contacts</th>
+							<th>Delete</th>
+						</tr>
+						<!--
+						<c:set var="persons" value='${persons}' />
+						<c:forEach var="person" items="${persons}" >
+							<c:set var="personId" value='${person.getId()}' />
+							<c:set var="personName" value='${person.getName()}' />
+							<c:set var="personAddress" value='${person.getAddress()}' />
+							<c:set var="personGWA" value='${person.getPerson_GWA()}' />
+							
+							<c:set var="personGender" value='${person.getGender()}' />
+							<c:set var="personBirthday" value='${person.getBirthday()}' />
+							<c:set var="dateHired" value='${person.getDate_hired()}' />
+							<c:set var="roles" value='${person.getRoles()}' />
+							<c:set var="contacts" value='${person.getPerson_contact()}' />
+							<c:set var="isEmployed" value='${person.getEmployed()}' /> -->
+							<tr th:each="person: ${persons}">
+								<td>
+									<form class="buttons" action="#" th:action="@{/ListPeople/Person}" method="get">
+										<input type="hidden" name="id" value="" th:value = "${{person.getId()}}"/> 
+										<input type="submit" name="action" th:value="edit" />
+									</form>
+								</td>
+								<td th:text="${{person.getId()}}">ID HERE</td>
+								<td th:text="${person.getName()}"> NAME HERE</td>
+								<td th:text="${person.getAddress()}">ADDRESS HERE</td>
+								<td th:text="${person.getGender()}">GENDER HERE</td>
+								<td th:text="${person.getPerson_GWA()}">GWA HERE</td>
+								<td th:text="${#dates.format(person.getBirthday(), 'MM/dd/yyyy')}">BIRTHDAY HERE</td>
+								<!-- nandito na yung employed, date hired, at roles-->
+								<td>
+									<div th:if="${person.getEmployed()}">
+										<b>Date Hired: </b>
+										<br/>
+										<span th:text="${#dates.format(person.getDate_hired(), 'MM/dd/yyyy')}"></span>
+										<b>Roles:</b>
+										<br/>
+										<div th:each="role:${person.getRoles()}">
+											<span th:text="${role}"></span>
+										</div>
+									</div>
+									
+									<div th:unless="${person.getEmployed()}">
+										NOT EMPLOYED!
+									</div>
+								</td>
+								<td>
+									<div th:each="contact : ${person.getPerson_contact()}">
+										<b>
+										<span th:text="${contact.getContact_type()}">CONTACT TYPE HERE</span>
+										</b>
+										=
+										<span th:text="${contact.getContact_value()}">CONTACT VALUE HERE</span>
+										<br/>
+									
+									
+									</div>
+									<div th:if="${#lists.isEmpty(person.getPerson_contact())}"> NO CONTACTS!</div>
+									<br/>
+								</td>
+								<td>
+									<form class="buttons" action="#" th:action="@{/ListPeople}" method="post">
+										<input type="hidden" name="id" value="" th:value = "${{person.getId()}}"/> 
+										<input type="submit" name="action" th:value="delete" />
+									</form>
+								</td>
+							</tr>
+						<!--</c:forEach>-->
+					</table>
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+		<style>
+			table {
+				border-collapse: collapse;
+				width:90%;
+			}
+
+			table, th, td {
+				border: 1px solid black;
+			}
+			td{
+				text-align:center;
+			}
+			.buttons{
+				align-items: center;
+				
+			}
+		</style>
+	</body>
+</html>

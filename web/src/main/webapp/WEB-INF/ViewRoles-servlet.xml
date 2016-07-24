@@ -1,0 +1,106 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:mvc="http://www.springframework.org/schema/mvc"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/mvc
+              http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	<!-- THYMELEAF VIEW RESOLVER
+	-->
+	<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+		<property name="prefix" value="/WEB-INF/html/" />
+		<property name="suffix" value=".html" />
+		<property name="templateMode" value="HTML5" />
+	</bean>
+
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+	</bean>
+
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+	</bean> 
+
+	<!--
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>-->
+   	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	<!--<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/ViewRoles">rolesController</prop>
+            </props>
+        </property>
+    </bean>-->
+	
+	<!-- CONTROLLERS-->
+	<bean id = "rolesController" name="/ViewRoles" class="com.person.web.RolesController">
+		<property name="service" ref="service"/>
+		<property name="methodNameResolver">
+			<bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+				<property name="defaultMethodName" value="viewRoles" />
+			</bean>
+		</property>
+    </bean>
+	
+	<bean id = "personController" name="/People" class="com.person.web.PersonController">
+		<property name="service" ref="service"/>
+		<property name="methodNameResolver">
+			<bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+				<property name="defaultMethodName" value="listPerson" />
+			</bean>
+		</property>
+    </bean>
+	
+	<bean id="service" class="com.person.service.impl.ServiceImpl">
+		<property name="personDao" ref="personDao"/>
+		<property name="roleDao" ref="roleDaos"/>
+    </bean>
+	
+	<bean id="roleDaos" class="com.person.dao.impl.RolesDaoImpl">
+		<constructor-arg>
+			<ref bean="factory"/>
+		</constructor-arg>
+    </bean>
+
+    <bean id="personDao" class="com.person.dao.impl.PersonDaoImpl">
+		<constructor-arg>
+		<ref bean="factory"/>
+		</constructor-arg>
+    </bean>
+	
+	<!-- DATA SOURCE -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="org.postgresql.Driver"/>
+		<property name="url" value="jdbc:postgresql://localhost/serviordb"/>
+		<property name="username" value="postgres"/>
+		<property name="password" value="password"/>
+	</bean>
+
+    <!-- HIBERNATE -->
+	<bean id="factory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.person.model.Person</value>
+                <value>com.person.model.Contact</value>
+                <value>com.person.model.Address</value>
+                <value>com.person.model.Roles</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+            </props>
+        </property>
+    </bean>
+	
+</beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>  
+<ehcache>
+<diskStore path="java.io.tmpdir"/>
+<defaultCache   
+maxElementsInMemory="100"   
+eternal="false"   
+timeToIdleSeconds="120"   
+timeToLiveSeconds="200" />  
+  
+<cache name="person"
+maxElementsInMemory="500"
+eternal="true"
+timeToIdleSeconds="0"
+timeToLiveSeconds="0"
+overflowToDisk="false"
+/> 
+
+<cache name="com.person.model.Contact"
+maxElementsInMemory="500"
+eternal="true"
+timeToIdleSeconds="0"
+timeToLiveSeconds="0"
+overflowToDisk="false"
+/>
+
+<cache name="com.person.model.Roles"
+maxElementsInMemory="500"
+eternal="true"
+timeToIdleSeconds="0"
+timeToLiveSeconds="0"
+overflowToDisk="false"
+/>
+<cache name="com.person.model.Person.roles"
+maxElementsInMemory="500"
+eternal="true"
+timeToIdleSeconds="0"
+timeToLiveSeconds="0"
+overflowToDisk="false"
+/>
+<cache name="com.person.model.Person.person_contact"
+maxElementsInMemory="500"
+eternal="true"
+timeToIdleSeconds="0"
+timeToLiveSeconds="0"
+overflowToDisk="false"
+/>
+
+
+<cache name = "org.hibernate.cache.internal.StandardQueryCache"
+maxElementsInMemory="10000"
+eternal="false"
+timeToLiveSeconds="10000"
+overflowToDisk="false"
+memoryStoreEvictionPolicy="LRU"/>
+</ehcache>  
+
