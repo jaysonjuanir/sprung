@@ -200,6 +200,28 @@ public class PersonEditorController extends MultiActionController{
 				contactList.add("landline");
 				
 				
+				if(person.getPerson_contact()!=null){
+					/*person.getPerson_contact().stream().forEach(c->{
+						model.addObject(c.getContact_type().toString()+"Checked", true);
+						model.addObject(c.getContact_type().toString()+"Value", c.getContact_value());
+						model.addObject(c.getContact_type().toString()+"Id", c.getId());
+					});*/
+					for(ContactDto c : person.getPerson_contact()){
+						model.addObject(c.getContact_type().toString()+"Checked", true);
+						model.addObject(c.getContact_type().toString()+"Value", c.getContact_value());
+						model.addObject(c.getContact_type().toString()+"Id", c.getId());
+					}
+				}
+				
+				if(person.getRoles()!=null){
+					/*person.getRoles().stream().forEach(r->{
+						model.addObject(r.getRole_type()+"Type", r.getRole_type());
+					});*/
+					for(RolesDto r : person.getRoles()){
+						model.addObject(r.getRole_type()+"Type", r.getRole_type());
+					}
+				}
+					
 				model.addObject("contactList", contactList);
 				//System.out.println("PERSON OUTPUT!!!!:" + person);
 				//System.out.println("NULL PERSON OUTPUT" + new PersonDto());

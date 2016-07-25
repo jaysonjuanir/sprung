@@ -178,6 +178,7 @@ public class ServiceImpl implements Service
 			System.out.println("ANO ANG LAMAN NI CONTACT TYPE? \t\t\t"+type);
 			if(type != null){
 				//clearContact(Integer.parseInt(personId));
+				deleteAllContact(Integer.parseInt(personId));
 				for(String t:type){
 					System.out.println(t);
 				}
@@ -188,13 +189,13 @@ public class ServiceImpl implements Service
 					contactDto.setContact_type(ContactType.valueOf(contactType));
 					if(contactType.equals("email")){
 						contactDto.setContact_value(emailValue);
-						contactDto.setId(Integer.parseInt(emailId));
+						//contactDto.setId(Integer.parseInt(emailId));
 					}else if(contactType.equals("mobile")){
 						contactDto.setContact_value(mobileValue);
-						contactDto.setId(Integer.parseInt(mobileId));
+						//contactDto.setId(Integer.parseInt(mobileId));
 					}else{
 						contactDto.setContact_value(landlineValue);
-						contactDto.setId(Integer.parseInt(landlineId));
+						//contactDto.setId(Integer.parseInt(landlineId));
 					}
 					contactDto.setContact_person(person);
 					System.out.println(++countTest);
@@ -205,6 +206,9 @@ public class ServiceImpl implements Service
 				}
 				person.setPerson_contact(contacts);
 			}
+			else{
+				deleteAllContact(Integer.parseInt(personId));
+			}
 			System.out.println("ANONG LAMAN NI CONTACTSSS:\t\t"+contacts);
 			
 			
@@ -212,6 +216,10 @@ public class ServiceImpl implements Service
 			ex.printStackTrace();
 		}
 		return person;
+	}
+	
+	public void deleteAllContact(int id){
+		personDao.deleteAllContact(id);
 	}
 	//-----------------------------ROLES--------------------------------------------------------
 	

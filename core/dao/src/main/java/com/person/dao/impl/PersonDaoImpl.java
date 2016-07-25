@@ -97,6 +97,18 @@ public class PersonDaoImpl implements PersonDao
 			session.close();
 		}
 	}
+	public void deleteAllContact(int personId){
+		Session session=factory.openSession();
+		try{
+			String hql = "DELETE from com.person.model.Contact where person_id = :id";
+			session.createQuery(hql).setParameter("id",personId).executeUpdate();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			session.close();
+		}
+		System.out.println("CONTACT DELETED!");
+	}
 	public List<PersonDto> getPersonByLastName(){
 		List<Person> people = new ArrayList<>();
 		Session session = factory.openSession();

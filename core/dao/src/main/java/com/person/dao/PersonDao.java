@@ -30,6 +30,7 @@ public interface PersonDao
 	public List<PersonDto> getPersonByDateHired();
 	public PersonDto getPersonById(int id);
 	public PersonDto toDto(Person person);
+	public void deleteAllContact(int personId);
 
 	public Person toEntity(PersonDto personDto);
 	
