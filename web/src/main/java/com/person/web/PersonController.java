@@ -55,6 +55,9 @@ public class PersonController extends MultiActionController{
 		message.add("Person Deleted Succesfully" + "\nID: " + id + "\t"+person.getName());
 		service.deletePerson(person);
 		model.addObject("message",message);
+		List<PersonDto> personDtos = new ArrayList<>();
+		personDtos = service.getPeople();	
+		model.addObject("persons", personDtos);
 		return model;
     }
    

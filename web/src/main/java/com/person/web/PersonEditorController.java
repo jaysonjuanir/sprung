@@ -184,7 +184,10 @@ public class PersonEditorController extends MultiActionController{
 					errors.add("Missing fields on employed/invalid format");
 				}
 			
+				String id = request.getParameter("personId");
+				
 				model.addObject("errors",errors);
+				model.addObject("personId", id);
 				model.addObject("person",person);
 				
 				List rolesType = new ArrayList();
